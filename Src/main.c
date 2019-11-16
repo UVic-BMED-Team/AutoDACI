@@ -88,6 +88,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
+  // This is a test
 
   /* USER CODE BEGIN SysInit */
 
