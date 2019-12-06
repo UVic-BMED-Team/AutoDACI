@@ -105,11 +105,15 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  uint8_t test = 0b11001100;
+
+  HAL_SPI_Transmit(&hspi2, &test, 1, HAL_MAX_DELAY);
+
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+/* USER CODE END WHILE */
+/* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -293,7 +297,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
 }
 
 /* USER CODE BEGIN 4 */

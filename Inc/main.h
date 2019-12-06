@@ -28,6 +28,8 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdlib.h>
+#include <string.h>
 #include "stm32f4xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/

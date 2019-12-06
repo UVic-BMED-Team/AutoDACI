@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccToPPXF.s 			page 1
+ARM GAS  /tmp/cckg5n9i.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
   28:Src/stm32f4xx_hal_msp.c **** /* Private typedef -----------------------------------------------------------*/
   29:Src/stm32f4xx_hal_msp.c **** /* USER CODE BEGIN TD */
   30:Src/stm32f4xx_hal_msp.c **** 
-ARM GAS  /tmp/ccToPPXF.s 			page 2
+ARM GAS  /tmp/cckg5n9i.s 			page 2
 
 
   31:Src/stm32f4xx_hal_msp.c **** /* USER CODE END TD */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
   43 0006 0B4B     		ldr	r3, .L3
   44 0008 5A6C     		ldr	r2, [r3, #68]
   45 000a 42F48042 		orr	r2, r2, #16384
-ARM GAS  /tmp/ccToPPXF.s 			page 3
+ARM GAS  /tmp/cckg5n9i.s 			page 3
 
 
   46 000e 5A64     		str	r2, [r3, #68]
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
   94              	.LFB131:
   79:Src/stm32f4xx_hal_msp.c **** 
   80:Src/stm32f4xx_hal_msp.c **** /**
-ARM GAS  /tmp/ccToPPXF.s 			page 4
+ARM GAS  /tmp/cckg5n9i.s 			page 4
 
 
   81:Src/stm32f4xx_hal_msp.c **** * @brief I2C MSP Initialization
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  104:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
  105:Src/stm32f4xx_hal_msp.c ****     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
  106:Src/stm32f4xx_hal_msp.c **** 
-ARM GAS  /tmp/ccToPPXF.s 			page 5
+ARM GAS  /tmp/cckg5n9i.s 			page 5
 
 
  107:Src/stm32f4xx_hal_msp.c ****     /* Peripheral clock enable */
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  162 003a 0493     		str	r3, [sp, #16]
  102:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
  163              		.loc 1 102 5 is_stmt 1 view .LVU32
-ARM GAS  /tmp/ccToPPXF.s 			page 6
+ARM GAS  /tmp/cckg5n9i.s 			page 6
 
 
  102:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  205 0070 00040240 		.word	1073873920
  206              		.cfi_endproc
  207              	.LFE131:
-ARM GAS  /tmp/ccToPPXF.s 			page 7
+ARM GAS  /tmp/cckg5n9i.s 			page 7
 
 
  209              		.section	.text.HAL_I2C_MspDeInit,"ax",%progbits
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  140:Src/stm32f4xx_hal_msp.c ****   /* USER CODE END I2C1_MspDeInit 1 */
  141:Src/stm32f4xx_hal_msp.c ****   }
  142:Src/stm32f4xx_hal_msp.c **** 
-ARM GAS  /tmp/ccToPPXF.s 			page 8
+ARM GAS  /tmp/cckg5n9i.s 			page 8
 
 
  143:Src/stm32f4xx_hal_msp.c **** }
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  282 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
  283              	.LCFI7:
  284              		.cfi_def_cfa_offset 24
-ARM GAS  /tmp/ccToPPXF.s 			page 9
+ARM GAS  /tmp/cckg5n9i.s 			page 9
 
 
  285              		.cfi_offset 4, -24
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  181:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
  182:Src/stm32f4xx_hal_msp.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
  183:Src/stm32f4xx_hal_msp.c **** 
-ARM GAS  /tmp/ccToPPXF.s 			page 10
+ARM GAS  /tmp/cckg5n9i.s 			page 10
 
 
  184:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_12;
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  162:Src/stm32f4xx_hal_msp.c ****     __HAL_RCC_GPIOB_CLK_ENABLE();
  344              		.loc 1 162 5 view .LVU73
  345 003c 1A6B     		ldr	r2, [r3, #48]
-ARM GAS  /tmp/ccToPPXF.s 			page 11
+ARM GAS  /tmp/cckg5n9i.s 			page 11
 
 
  346 003e 42F00402 		orr	r2, r2, #4
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  383              		.loc 1 173 27 is_stmt 0 view .LVU90
  384 006a 0326     		movs	r6, #3
  385 006c 0696     		str	r6, [sp, #24]
-ARM GAS  /tmp/ccToPPXF.s 			page 12
+ARM GAS  /tmp/cckg5n9i.s 			page 12
 
 
  174:Src/stm32f4xx_hal_msp.c ****     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  423 0098 0393     		str	r3, [sp, #12]
  185:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
  424              		.loc 1 185 5 is_stmt 1 view .LVU108
-ARM GAS  /tmp/ccToPPXF.s 			page 13
+ARM GAS  /tmp/cckg5n9i.s 			page 13
 
 
  185:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  464              		.cfi_startproc
  465              		@ args = 0, pretend = 0, frame = 0
  466              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /tmp/ccToPPXF.s 			page 14
+ARM GAS  /tmp/cckg5n9i.s 			page 14
 
 
  467              		.loc 1 205 1 is_stmt 0 view .LVU119
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  220:Src/stm32f4xx_hal_msp.c **** 
  495              		.loc 1 220 5 is_stmt 0 view .LVU126
  496 001a FFF7FEFF 		bl	HAL_GPIO_DeInit
-ARM GAS  /tmp/ccToPPXF.s 			page 15
+ARM GAS  /tmp/cckg5n9i.s 			page 15
 
 
  497              	.LVL21:
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  542 0008 0493     		str	r3, [sp, #16]
  543 000a 0593     		str	r3, [sp, #20]
  544 000c 0693     		str	r3, [sp, #24]
-ARM GAS  /tmp/ccToPPXF.s 			page 16
+ARM GAS  /tmp/cckg5n9i.s 			page 16
 
 
  545 000e 0793     		str	r3, [sp, #28]
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  246:Src/stm32f4xx_hal_msp.c ****   
  571              		.loc 1 246 5 view .LVU139
  572 0022 03F5FA33 		add	r3, r3, #128000
-ARM GAS  /tmp/ccToPPXF.s 			page 17
+ARM GAS  /tmp/cckg5n9i.s 			page 17
 
 
  573 0026 1A6C     		ldr	r2, [r3, #64]
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  256:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
  612              		.loc 1 256 5 is_stmt 1 view .LVU155
  256:Src/stm32f4xx_hal_msp.c ****     GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
-ARM GAS  /tmp/ccToPPXF.s 			page 18
+ARM GAS  /tmp/cckg5n9i.s 			page 18
 
 
  613              		.loc 1 256 27 is_stmt 0 view .LVU156
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  656              		.cfi_offset 3, -8
  657              		.cfi_offset 14, -4
  275:Src/stm32f4xx_hal_msp.c ****   if(huart->Instance==USART2)
-ARM GAS  /tmp/ccToPPXF.s 			page 19
+ARM GAS  /tmp/cckg5n9i.s 			page 19
 
 
  658              		.loc 1 275 3 is_stmt 1 view .LVU164
@@ -1138,48 +1138,53 @@ ARM GAS  /tmp/ccToPPXF.s 			page 1
  690 0028 00000240 		.word	1073872896
  691              		.cfi_endproc
  692              	.LFE136:
-ARM GAS  /tmp/ccToPPXF.s 			page 20
+ARM GAS  /tmp/cckg5n9i.s 			page 20
 
 
  694              		.text
  695              	.Letext0:
- 696              		.file 2 "/home/tbgiles/Documents/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/machine/_
- 697              		.file 3 "/home/tbgiles/Documents/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/sys/_stdi
- 698              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
- 699              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
- 700              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
- 701              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 702              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
- 703              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 704              		.file 10 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h"
- 705              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
- 706              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
-ARM GAS  /tmp/ccToPPXF.s 			page 21
+ 696              		.file 2 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/m
+ 697              		.file 3 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/s
+ 698              		.file 4 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/s
+ 699              		.file 5 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/lib/gcc/arm-none-eabi/9
+ 700              		.file 6 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/s
+ 701              		.file 7 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/s
+ 702              		.file 8 "/home/tbgiles/eclipse-workspace/gcc-arm-none-eabi-9-2019-q4-major/arm-none-eabi/include/s
+ 703              		.file 9 "Drivers/CMSIS/Include/core_cm4.h"
+ 704              		.file 10 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 705              		.file 11 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f446xx.h"
+ 706              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 707              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 708              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 709              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h"
+ 710              		.file 16 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
+ 711              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ARM GAS  /tmp/cckg5n9i.s 			page 21
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stm32f4xx_hal_msp.c
-     /tmp/ccToPPXF.s:18     .text.HAL_MspInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:26     .text.HAL_MspInit:0000000000000000 HAL_MspInit
-     /tmp/ccToPPXF.s:80     .text.HAL_MspInit:0000000000000034 $d
-     /tmp/ccToPPXF.s:85     .text.HAL_I2C_MspInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:92     .text.HAL_I2C_MspInit:0000000000000000 HAL_I2C_MspInit
-     /tmp/ccToPPXF.s:203    .text.HAL_I2C_MspInit:0000000000000068 $d
-     /tmp/ccToPPXF.s:210    .text.HAL_I2C_MspDeInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:217    .text.HAL_I2C_MspDeInit:0000000000000000 HAL_I2C_MspDeInit
-     /tmp/ccToPPXF.s:260    .text.HAL_I2C_MspDeInit:0000000000000020 $d
-     /tmp/ccToPPXF.s:267    .text.HAL_SPI_MspInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:274    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
-     /tmp/ccToPPXF.s:446    .text.HAL_SPI_MspInit:00000000000000ac $d
-     /tmp/ccToPPXF.s:453    .text.HAL_SPI_MspDeInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:460    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
-     /tmp/ccToPPXF.s:508    .text.HAL_SPI_MspDeInit:000000000000002c $d
-     /tmp/ccToPPXF.s:516    .text.HAL_UART_MspInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:523    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
-     /tmp/ccToPPXF.s:632    .text.HAL_UART_MspInit:000000000000006c $d
-     /tmp/ccToPPXF.s:638    .text.HAL_UART_MspDeInit:0000000000000000 $t
-     /tmp/ccToPPXF.s:645    .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
-     /tmp/ccToPPXF.s:688    .text.HAL_UART_MspDeInit:0000000000000020 $d
+     /tmp/cckg5n9i.s:18     .text.HAL_MspInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:26     .text.HAL_MspInit:0000000000000000 HAL_MspInit
+     /tmp/cckg5n9i.s:80     .text.HAL_MspInit:0000000000000034 $d
+     /tmp/cckg5n9i.s:85     .text.HAL_I2C_MspInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:92     .text.HAL_I2C_MspInit:0000000000000000 HAL_I2C_MspInit
+     /tmp/cckg5n9i.s:203    .text.HAL_I2C_MspInit:0000000000000068 $d
+     /tmp/cckg5n9i.s:210    .text.HAL_I2C_MspDeInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:217    .text.HAL_I2C_MspDeInit:0000000000000000 HAL_I2C_MspDeInit
+     /tmp/cckg5n9i.s:260    .text.HAL_I2C_MspDeInit:0000000000000020 $d
+     /tmp/cckg5n9i.s:267    .text.HAL_SPI_MspInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:274    .text.HAL_SPI_MspInit:0000000000000000 HAL_SPI_MspInit
+     /tmp/cckg5n9i.s:446    .text.HAL_SPI_MspInit:00000000000000ac $d
+     /tmp/cckg5n9i.s:453    .text.HAL_SPI_MspDeInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:460    .text.HAL_SPI_MspDeInit:0000000000000000 HAL_SPI_MspDeInit
+     /tmp/cckg5n9i.s:508    .text.HAL_SPI_MspDeInit:000000000000002c $d
+     /tmp/cckg5n9i.s:516    .text.HAL_UART_MspInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:523    .text.HAL_UART_MspInit:0000000000000000 HAL_UART_MspInit
+     /tmp/cckg5n9i.s:632    .text.HAL_UART_MspInit:000000000000006c $d
+     /tmp/cckg5n9i.s:638    .text.HAL_UART_MspDeInit:0000000000000000 $t
+     /tmp/cckg5n9i.s:645    .text.HAL_UART_MspDeInit:0000000000000000 HAL_UART_MspDeInit
+     /tmp/cckg5n9i.s:688    .text.HAL_UART_MspDeInit:0000000000000020 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_Init
