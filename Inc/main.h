@@ -31,6 +31,8 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include "stm32f4xx_hal.h"
+#include "../Src/TMC-API/tmc/ic/TMC5160/TMC5160.h"
+#include "../Src/TMC-SPI/TMC-SPI.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

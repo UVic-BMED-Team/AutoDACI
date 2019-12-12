@@ -33,6 +33,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+#define MOTOR0 0
+#define MOTOR1 1
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -129,9 +131,9 @@ int main(void)
 //  uint8_t cmd9[] = {0xAD, 0xFF, 0xFF, 0x38, 0x00};
 //  uint8_t cmd10[] = {0x21, 0x00, 0x00, 0x00, 0x00};
 
-  uint8_t vmax[] = {0xA7, 0x00, 0xAB, 0xCD, 0xEF};
+  //uint8_t vmax[] = {0xA7, 0x00, 0xAB, 0xCD, 0xEF};
 
-  unsigned char buf[5];
+  //unsigned char buf[5];
 
 //	HAL_SPI_Transmit(&hspi2, cmd1, 5, HAL_MAX_DELAY);
 //	HAL_SPI_Transmit(&hspi2, cmd2, 5, HAL_MAX_DELAY);
@@ -145,16 +147,13 @@ int main(void)
 //	HAL_SPI_Transmit(&hspi2, cmd10, 5, HAL_MAX_DELAY);
   //HAL_SPI_Transmit(&hspi2, vmax, 5, HAL_MAX_DELAY);
   //HAL_SPI_Transmit(&hspi2, vmax, 5, HAL_MAX_DELAY);
-  HAL_StatusTypeDef stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
-  stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+//  HAL_StatusTypeDef stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+//  stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
 
-	//HAL_Delay(1);
-	//HAL_StatusTypeDef stat = HAL_SPI_Receive(&hspi2, buf, 5, HAL_MAX_DELAY);
+  //tmc5160_writeDatagram(&hspi2, motor0, uint8_t address, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4)
 
-	int tristan = 4;
-	HAL_StatusTypeDef *ptr = &stat;
-	tristan += 1;
-	tristan *= 5;
+  uint32_t buf = tmc5160_readInt(&hspi2, MOTOR0,  TMC5160_GCONF); // Take care to ensure endianness is correct!
+  UNUSED(buf);
 
   while (1)
   {
