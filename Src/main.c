@@ -59,6 +59,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USART2_UART_Init(void);
+void AD_TMC5160_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -102,58 +103,34 @@ int main(void)
   MX_SPI2_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  AD_TMC5160_Init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  //uint8_t test = 0b11001100;
+//  This is how you initialize a pin to be used as an output
+//  GPIO_InitTypeDef GPIO_InitStruct = {0};
+//  GPIO_InitStruct.Pin = GPIO_PIN_3;
+//  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//  GPIO_InitStruct.Pull = GPIO_NOPULL;
+//  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+//  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
 
-//  uint8_t dg1 = 0b00000100;
-//  uint8_t dg2 = 0b00000000;
-//  uint8_t dg3 = 0b00000000;
-//  uint8_t dg4 = 0b00000000;
-//  uint8_t dg5 = 0b00000000;
-//  uint8_t dg1 = 0xAD;
-//  uint8_t dg2 = 0xFF;
-//  uint8_t dg3 = 0xFF;
-//  uint8_t dg4 = 0x38;
-//  uint8_t dg5 = 0x00;
-//  uint8_t cmd1[] = {0xA4, 0x00, 0x00, 0x03, 0xE8};
-//  uint8_t cmd2[] = {0xA5, 0x00, 0x00, 0xC3, 0x50};
-//  uint8_t cmd3[] = {0xA6, 0x00, 0x00, 0x01, 0xF4};
-//  uint8_t cmd4[] = {0xA7, 0x00, 0x03, 0x0D, 0x40};
-//  uint8_t cmd5[] = {0xA8, 0x00, 0x00, 0x02, 0xBC};
-//  uint8_t cmd6[] = {0xAA, 0x00, 0x00, 0x05, 0x78};
-//  uint8_t cmd7[] = {0xAB, 0x00, 0x00, 0x00, 0x0A};
-//  uint8_t cmd8[] = {0xA0, 0x00, 0x00, 0x00, 0x00};
-//  uint8_t cmd9[] = {0xAD, 0xFF, 0xFF, 0x38, 0x00};
-//  uint8_t cmd10[] = {0x21, 0x00, 0x00, 0x00, 0x00};
+    uint8_t vmax[] = {0x08, 0x00, 0x00, 0x00, 0x00};
+    uint8_t vmax2[] = {0x88, 0x00, 0x00, 0x00, 0x0A};
+    unsigned char buf[5] = {0,0,0,0,0};
 
-  //uint8_t vmax[] = {0xA7, 0x00, 0xAB, 0xCD, 0xEF};
-
-  //unsigned char buf[5];
-
-//	HAL_SPI_Transmit(&hspi2, cmd1, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd2, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd3, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd4, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd5, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd6, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd7, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd8, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd9, 5, HAL_MAX_DELAY);
-//	HAL_SPI_Transmit(&hspi2, cmd10, 5, HAL_MAX_DELAY);
-  //HAL_SPI_Transmit(&hspi2, vmax, 5, HAL_MAX_DELAY);
-  //HAL_SPI_Transmit(&hspi2, vmax, 5, HAL_MAX_DELAY);
-//  HAL_StatusTypeDef stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
-//  stat = HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
-
-  //tmc5160_writeDatagram(&hspi2, motor0, uint8_t address, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4)
-
-  uint32_t buf = tmc5160_readInt(&hspi2, MOTOR0,  TMC5160_GCONF); // Take care to ensure endianness is correct!
-  UNUSED(buf);
+    HAL_SPI_TransmitReceive(&hspi2, vmax2, buf, 5, HAL_MAX_DELAY);
+    while( hspi2.State == HAL_SPI_STATE_BUSY );
+    HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+    while( hspi2.State == HAL_SPI_STATE_BUSY );
+    HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+	while( hspi2.State == HAL_SPI_STATE_BUSY );
 
   while (1)
   {
@@ -265,10 +242,10 @@ static void MX_SPI2_Init(void)
   // Below are set for SPI mode 3 with software controlled slave
   hspi2.Init.CLKPolarity = SPI_POLARITY_HIGH; // TMC5160 expects HIGH idle
 //SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE //SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT; //SPI_NSS_HARD_OUTPUT;
+  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE; //SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
 
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8; //SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64; //SPI_BAUDRATEPRESCALER_2;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -312,6 +289,7 @@ static void MX_USART2_UART_Init(void)
   }
   /* USER CODE BEGIN USART2_Init 2 */
 
+
   /* USER CODE END USART2_Init 2 */
 
 }
@@ -349,6 +327,22 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void AD_TMC5160_Init()
+{
+	  //  uint8_t cmd1[] = {0xA4, 0x00, 0x00, 0x03, 0xE8};
+	  //  uint8_t cmd2[] = {0xA5, 0x00, 0x00, 0xC3, 0x50};
+	  //  uint8_t cmd3[] = {0xA6, 0x00, 0x00, 0x01, 0xF4};
+	  //  uint8_t cmd4[] = {0xA7, 0x00, 0x03, 0x0D, 0x40};
+	  //  uint8_t cmd5[] = {0xA8, 0x00, 0x00, 0x02, 0xBC};
+	  //  uint8_t cmd6[] = {0xAA, 0x00, 0x00, 0x05, 0x78};
+	  //  uint8_t cmd7[] = {0xAB, 0x00, 0x00, 0x00, 0x0A};
+	  //  uint8_t cmd8[] = {0xA0, 0x00, 0x00, 0x00, 0x00};
+	  //  uint8_t cmd9[] = {0xAD, 0xFF, 0xFF, 0x38, 0x00};
+	  //  uint8_t cmd10[] = {0x21, 0x00, 0x00, 0x00, 0x00};
+	  // Write commands one by one
+	return;
+}
 
 /* USER CODE END 4 */
 

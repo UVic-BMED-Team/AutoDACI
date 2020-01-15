@@ -22,7 +22,8 @@ TARGET = AutoDACI
 # debug build?
 DEBUG = 1
 # optimization
-OPT = -Og
+#OPT = -Og
+OPT = -O0 # Turns off optimization, enable when doing a production run
 
 
 #######################################
