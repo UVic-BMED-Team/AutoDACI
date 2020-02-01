@@ -103,6 +103,16 @@ int main(void)
   MX_SPI2_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+
+	//  This is how you initialize a pin to be used as an output
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitStruct.Pin = GPIO_PIN_3;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+
   AD_TMC5160_Init();
 
   /* USER CODE END 2 */
@@ -110,27 +120,9 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-//  This is how you initialize a pin to be used as an output
-//  GPIO_InitTypeDef GPIO_InitStruct = {0};
-//  GPIO_InitStruct.Pin = GPIO_PIN_3;
-//  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//  GPIO_InitStruct.Pull = GPIO_NOPULL;
-//  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-//  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+
 //  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
 //  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
-
-    uint8_t vmax[] = {0x08, 0x00, 0x00, 0x00, 0x00};
-    uint8_t vmax2[] = {0x88, 0x00, 0x00, 0x00, 0x0A};
-    unsigned char buf[5] = {0,0,0,0,0};
-
-    HAL_SPI_TransmitReceive(&hspi2, vmax2, buf, 5, HAL_MAX_DELAY);
-    while( hspi2.State == HAL_SPI_STATE_BUSY );
-    HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
-    while( hspi2.State == HAL_SPI_STATE_BUSY );
-    HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
-	while( hspi2.State == HAL_SPI_STATE_BUSY );
 
   while (1)
   {
@@ -245,7 +237,7 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CLKPhase = SPI_PHASE_2EDGE; //SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
 
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64; //SPI_BAUDRATEPRESCALER_2;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128; //SPI_BAUDRATEPRESCALER_2;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -330,16 +322,74 @@ static void MX_GPIO_Init(void)
 
 void AD_TMC5160_Init()
 {
-	  //  uint8_t cmd1[] = {0xA4, 0x00, 0x00, 0x03, 0xE8};
-	  //  uint8_t cmd2[] = {0xA5, 0x00, 0x00, 0xC3, 0x50};
-	  //  uint8_t cmd3[] = {0xA6, 0x00, 0x00, 0x01, 0xF4};
-	  //  uint8_t cmd4[] = {0xA7, 0x00, 0x03, 0x0D, 0x40};
-	  //  uint8_t cmd5[] = {0xA8, 0x00, 0x00, 0x02, 0xBC};
-	  //  uint8_t cmd6[] = {0xAA, 0x00, 0x00, 0x05, 0x78};
-	  //  uint8_t cmd7[] = {0xAB, 0x00, 0x00, 0x00, 0x0A};
-	  //  uint8_t cmd8[] = {0xA0, 0x00, 0x00, 0x00, 0x00};
-	  //  uint8_t cmd9[] = {0xAD, 0xFF, 0xFF, 0x38, 0x00};
-	  //  uint8_t cmd10[] = {0x21, 0x00, 0x00, 0x00, 0x00};
+//	uint8_t vmax[] = {0x08, 0x00, 0x00, 0x00, 0x00};
+//	uint8_t vmax2[] = {0x88, 0x00, 0x00, 0x00, 0x0A};
+	unsigned char buf[5] = {0};
+
+
+	uint8_t cmd[][5] = {
+			//{0x80, 0x00, 0x00, 0x00, 0x04}, // GCONF
+			{0xEC, 0x00, 0x01, 0x00, 0xC3}, // CHOPCONF
+			{0x90, 0x00, 0x06, 0x1F, 0x0A}, // IHOLD_IRUN
+			{0x91, 0x00, 0x00, 0x00, 0x0A}, // TPOWERDOWN
+			{0x80, 0x00, 0x00, 0x00, 0x04}, // EN_PWM_MODE = 1
+			{0x93, 0x00, 0x00, 0x01, 0xF4}, // TPWMTHRS
+
+			{0xA4, 0x00, 0x00, 0x03, 0xE8}, // A1
+			{0xA5, 0x00, 0x00, 0xC3, 0x50}, // V1
+			{0xA6, 0x00, 0x00, 0x01, 0xF4}, // AMAX
+			{0xA7, 0x00, 0x03, 0x0D, 0x40}, // VMAX
+			{0xA8, 0x00, 0x00, 0x02, 0xBC}, // DMAX
+			{0xAA, 0x00, 0x00, 0x05, 0x78}, // D1
+			{0xAB, 0x00, 0x00, 0x00, 0x0A}, // VSTOP
+
+			{0xA0, 0x00, 0x00, 0x00, 0x00}, // RAMPMODE = POSITIONMODE
+			//{0xA1, 0x00, 0x00, 0x00, 0x00}, // XACTUAL = 0 // This is 13
+			//{0xAD, 0x00, 0x00, 0x00, 0x00}, // XTARGET = 0
+
+			{0xAD, 0xFF, 0xFF, 0x38, 0x00}, // XTARGET = -51200 15 line
+			//{0xA1, 0x00, 0x00, 0x00, 0x00}, // XACTUAL = 0
+
+//			{0x2D, 0x00, 0x00, 0x00, 0x00}, // Query XTARGET
+//			{0x2D, 0x00, 0x00, 0x00, 0x00}, // Query XTARGET
+
+
+			{0x21, 0x00, 0x00, 0x00, 0x00}, // Query XACTUAL
+			{0x21, 0x00, 0x00, 0x00, 0x00}  // READ XACTUAL
+	};
+
+	unsigned int num_cmds = sizeof(cmd) / 5;
+
+	for(unsigned int i = 0; i < num_cmds; i++){
+		HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
+		HAL_SPI_TransmitReceive(&hspi2, cmd[i], buf, 5, HAL_MAX_DELAY);
+		while( hspi2.State == HAL_SPI_STATE_BUSY ){/* wait */};
+		HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+	}
+
+	// Motor should start moving by this point, if not done
+//
+//	uint8_t movef[] = {0xAD, 0xFF, 0xFF, 0x38, 0x00};
+//	uint8_t moveb[] = {0xAD, 0x00, 0x00, 0x00, 0x00};
+//	//uint8_t stat[] = {0x6F, 0x00, 0x00, 0x00, 0x00};
+//
+//
+//	while(1){
+//		HAL_SPI_TransmitReceive(&hspi2, movef, buf, 5, HAL_MAX_DELAY);
+//		while( hspi2.State == HAL_SPI_STATE_BUSY ){/* wait */};
+//		HAL_Delay(5000);
+//
+//		HAL_SPI_TransmitReceive(&hspi2, moveb, buf, 5, HAL_MAX_DELAY);
+//		while( hspi2.State == HAL_SPI_STATE_BUSY ){/* wait */};
+//		HAL_Delay(5000);
+//	}
+
+//	HAL_SPI_TransmitReceive(&hspi2, vmax2, buf, 5, HAL_MAX_DELAY);
+//	while( hspi2.State == HAL_SPI_STATE_BUSY );
+//	HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+//	while( hspi2.State == HAL_SPI_STATE_BUSY );
+//	HAL_SPI_TransmitReceive(&hspi2, vmax, buf, 5, HAL_MAX_DELAY);
+//	while( hspi2.State == HAL_SPI_STATE_BUSY );
 	  // Write commands one by one
 	return;
 }

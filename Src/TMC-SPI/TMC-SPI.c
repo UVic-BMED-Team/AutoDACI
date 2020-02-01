@@ -9,8 +9,9 @@
 #include "stm32f4xx_hal.h"
 
 
+
 // TMC5160 SPI wrapper
-void tmc5160_writeDatagram(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4)
+void tmc5160_writeDatagram(SPI_HandleTypeDef* hspi, e_motor motor, uint8_t address, uint8_t x1, uint8_t x2, uint8_t x3, uint8_t x4)
 {
     uint32_t value = x1;
 	value <<= 8;
@@ -23,19 +24,19 @@ void tmc5160_writeDatagram(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t addre
     tmc40bit_writeInt(hspi, motor, address, value);
 }
 
-void tmc5160_writeInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address, uint32_t value)
+void tmc5160_writeInt(SPI_HandleTypeDef* hspi, e_motor motor, uint8_t address, uint32_t value)
 {
     tmc40bit_writeInt(hspi, motor, address, value);
 }
 
-uint32_t tmc5160_readInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address)
+uint32_t tmc5160_readInt(SPI_HandleTypeDef* hspi, e_motor motor, uint8_t address)
 {
     tmc40bit_readInt(hspi, motor, address);
     return tmc40bit_readInt(hspi, motor, address);
 }
 
 // General SPI decription
-void tmc40bit_writeInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address, uint32_t value)
+void tmc40bit_writeInt(SPI_HandleTypeDef* hspi, e_motor motor, uint8_t address, uint32_t value)
 {
     uint8_t tbuf[5];
     tbuf[0] = address | 0x80;
@@ -49,7 +50,7 @@ void tmc40bit_writeInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address, 
     // OLD bcm2835_spi_writenb (tbuf, 5);
 }
 
-uint32_t tmc40bit_readInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t address)
+uint32_t tmc40bit_readInt(SPI_HandleTypeDef* hspi, e_motor motor, uint8_t address)
 {
     uint8_t tbuf[5], rbuf[5];
     uint32_t value;
@@ -69,4 +70,6 @@ uint32_t tmc40bit_readInt(SPI_HandleTypeDef* hspi, uint8_t motor, uint8_t addres
 
 	return value;
 }
+
+
 
