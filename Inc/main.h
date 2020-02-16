@@ -34,6 +34,10 @@ extern "C" {
 #include "../Src/TMC-API/tmc/ic/TMC5160/TMC5160.h"
 #include "../Src/TMC-SPI/TMC-SPI.h"
 
+#include "stm32f4xx_hal_tim.h"
+#include "stm32f4xx_hal_rcc.h"
+#include "stm32f4xx_hal_gpio.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 

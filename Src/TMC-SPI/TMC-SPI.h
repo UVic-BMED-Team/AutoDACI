@@ -10,13 +10,7 @@
 
 #include "stm32f4xx_hal.h"
 #include "../TMC-API/tmc/ic/TMC5160/TMC5160.h"
-
-typedef enum{
-	ROTATION,
-	HEIGHT,
-	DEPTH,
-	NUM_MOTORS
-} e_motor;
+#include "motioncontrol.h"
 
 
 // TMC5160 SPI wrapper

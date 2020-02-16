@@ -297,6 +297,51 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
 
 /* USER CODE BEGIN 1 */
 
+//TODO: If we want to enable timers later
+//HAL_TIM_Base_MspInit(TIM_HandleTypeDef* thand)
+//{
+//	__HAL_RCC_TIM2_CLK_ENABLE();
+//    __HAL_RCC_GPIOx_CLK_ENABLE();
+//}
+
+//void print_int()
+//{
+//	int i = 0;
+//	int j = i + 1;
+//	j = j + 1;
+//}
+//
+//static void timer_init(void)
+//{
+//	TIM_HandleTypeDef timdef = {0};
+//	HAL_TIM_Base_MspInit(&timdef);
+//
+//	GPIO_InitTypeDef GPIO_InitStruct = {0};
+//
+//	__HAL_RCC_TIM2_CLK_ENABLE();
+//	__HAL_RCC_GPIOA_CLK_ENABLE();
+//
+//	GPIO_InitStruct.Pin = GPIO_PIN_0;
+//	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+//	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+//
+//	HAL_TIM_Base_Init(&timdef);
+//
+//	HAL_TIM_Base_Start_IT(&timdef);
+//
+////	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+////
+////	TIM_TimeBaseInitTypeDef timerInitStructure;
+////	timerInitStructure.TIM_Prescaler = 40000;
+////	timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+////	timerInitStructure.TIM_Period = 500;
+////	timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+////	timerInitStructure.TIM_RepetitionCounter = 0;
+////	TIM_TimeBaseInit(TIM2, &timerInitStructure);
+////	TIM_Cmd(TIM2, ENABLE);
+//}
+
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
