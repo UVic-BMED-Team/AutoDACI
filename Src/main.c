@@ -65,6 +65,7 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void AD_TMC5160_Init();
+void toggle_light();
 /* USER CODE END 0 */
 
 /**
@@ -108,13 +109,20 @@ int main(void)
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
 
+	GPIO_InitStruct.Pin = GPIO_PIN_5;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	while(1);
+
+
   AD_TMC5160_Init();
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
 
 //  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
 //  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
@@ -124,6 +132,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	uint8_t pData[1];
+	HAL_UART_Receive(&huart1, pData, 1, UINT32_MAX);
   }
   /* USER CODE END 3 */
 }
@@ -273,6 +283,9 @@ static void MX_USART1_UART_Init(void)
   }
   /* USER CODE BEGIN USART1_Init 2 */
 
+  USART1->CR1 |= USART_CR1_RXNEIE;
+  NVIC_SetPriority(USART1_IRQn, NVIC_EncodePriority(4,1,0));
+  NVIC_EnableIRQ(USART1_IRQn);
   /* USER CODE END USART1_Init 2 */
 
 }
@@ -392,6 +405,29 @@ void AD_TMC5160_Init()
 //	while( hspi2.State == HAL_SPI_STATE_BUSY );
 	  // Write commands one by one
 	return;
+}
+
+void light_on()
+{
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
+}
+
+void light_off()
+{
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+}
+
+
+void USART1_IRQHandler(void)
+{
+	uint8_t uart_cmd[1];
+	uart_cmd[0] = 0;
+	HAL_UART_Receive(&huart1, uart_cmd, 1, UINT32_MAX);
+	if (uart_cmd[0] == 0xff) {
+		light_on();
+	} else {
+		light_off();
+	}
 }
 
 /* USER CODE END 4 */
