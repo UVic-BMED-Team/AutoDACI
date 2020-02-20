@@ -51,12 +51,12 @@ UART_HandleTypeDef huart2;
 Motor_HandleTypeDef m_rotation_handle = {
 		.motor=ROTATION,
 		.direction=CW,
-		.stepsize=8,
+		.stepsize=6,
 		// Motor Step/Dir control
 		.GPIO_Step_Port=GPIOC,
 		.GPIO_Step_Pin=GPIO_PIN_0,
 		.GPIO_Dir_Port=GPIOA,
-		.GPIO_Dir_Pin=GPIO_PIN_3,
+		.GPIO_Dir_Pin=GPIO_PIN_8,
 		// SPI Communication
 		.GPIO_SS_Port=GPIOC,
 		.GPIO_SS_Pin=GPIO_PIN_3
@@ -135,7 +135,10 @@ int main(void)
   while (0xDEADBEEF)
   {
 /* USER CODE END WHILE */
-	  rotate_right(&m_rotation_handle, 2, SLOW);
+	  rotate_right(&m_rotation_handle, 200, MEDIUM);
+	  HAL_Delay(2000);
+	  rotate_left(&m_rotation_handle, 200, MEDIUM);
+	  HAL_Delay(2000);
 //	  rotate_right(ROTATION, 2, FAST);
 //	  rotate_right(ROTATION, 2, FAST);
 //	  rotate_right(ROTATION, 2, FAST);
