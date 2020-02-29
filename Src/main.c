@@ -78,8 +78,7 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void AD_TMC5160_Init();
-void toggle_light();
+//void toggle_light();
 /* USER CODE END 0 */
 
 /**
@@ -119,34 +118,10 @@ int main(void)
 
   motor_init(&m_rotation_handle);
 
-  //AD_TMC5160_Init();
-
-	//  This is how you initialize a pin to be used as an output
-	GPIO_InitTypeDef GPIO_InitStruct = {0};
-	GPIO_InitStruct.Pin = GPIO_PIN_3;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
-
-	GPIO_InitStruct.Pin = GPIO_PIN_5;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	while(1);
-
-
-  AD_TMC5160_Init();
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
-//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
-//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
 
   while (0xDEADBEEF)
   {
@@ -155,6 +130,8 @@ int main(void)
 	  HAL_Delay(2000);
 	  rotate_left(&m_rotation_handle, 200, MEDIUM);
 	  HAL_Delay(2000);
+
+
 //	  rotate_right(ROTATION, 2, FAST);
 //	  rotate_right(ROTATION, 2, FAST);
 //	  rotate_right(ROTATION, 2, FAST);
@@ -268,8 +245,8 @@ static void MX_SPI2_Init(void)
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
   hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_HIGH;
+  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE;
   hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
   hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
@@ -329,8 +306,7 @@ static void MX_USART1_UART_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
-
+	 GPIO_InitTypeDef GPIO_InitStruct = {0};
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
@@ -353,55 +329,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
-}
-
-/* USER CODE BEGIN 4 */
-
-void AD_TMC5160_Init()
-{
-//	uint8_t vmax[] = {0x08, 0x00, 0x00, 0x00, 0x00};
-//	uint8_t vmax2[] = {0x88, 0x00, 0x00, 0x00, 0x0A};
-	unsigned char buf[5] = {0};
-
-
-	uint8_t cmd[][5] = {
-			//{0x80, 0x00, 0x00, 0x00, 0x04}, // GCONF
-			{0xEC, 0x00, 0x01, 0x00, 0xC3}, // CHOPCONF
-			{0x90, 0x00, 0x06, 0x1F, 0x0A}, // IHOLD_IRUN
-			{0x91, 0x00, 0x00, 0x00, 0x0A}, // TPOWERDOWN
-			{0x80, 0x00, 0x00, 0x00, 0x04}, // EN_PWM_MODE = 1
-			{0x93, 0x00, 0x00, 0x01, 0xF4}, // TPWMTHRS
-
-			{0xA4, 0x00, 0x00, 0x03, 0xE8}, // A1
-			{0xA5, 0x00, 0x00, 0xC3, 0x50}, // V1
-			{0xA6, 0x00, 0x00, 0x01, 0xF4}, // AMAX
-			{0xA7, 0x00, 0x03, 0x0D, 0x40}, // VMAX
-			{0xA8, 0x00, 0x00, 0x02, 0xBC}, // DMAX
-			{0xAA, 0x00, 0x00, 0x05, 0x78}, // D1
-			{0xAB, 0x00, 0x00, 0x00, 0x0A}, // VSTOP
-
-	/* GPIO Ports Clock Enable */
-	__HAL_RCC_GPIOC_CLK_ENABLE();
-	__HAL_RCC_GPIOH_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
-	__HAL_RCC_GPIOB_CLK_ENABLE();
-
-	/*Configure GPIO pin Output Level */
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
-
-	/*Configure GPIO pin : B1_Pin */
-	GPIO_InitStruct.Pin = B1_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
-
-	/*Configure GPIO pin : LD2_Pin */
-	GPIO_InitStruct.Pin = LD2_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
 	// Slave select pin (set high, active low)
 	GPIO_InitTypeDef SS_InitStruct = {0};
 	SS_InitStruct.Pin = GPIO_PIN_3;
@@ -411,25 +338,10 @@ void AD_TMC5160_Init()
 	HAL_GPIO_Init(GPIOC, &SS_InitStruct);
 	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
 
-//	// Step/Dir pin for rotation
-//	GPIO_InitTypeDef SD_Step_InitStruct = {0};
-//	SD_Step_InitStruct.Pin = GPIO_PIN_0;
-//	SD_Step_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//	SD_Step_InitStruct.Pull = GPIO_NOPULL;
-//	SD_Step_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//	HAL_GPIO_Init(GPIOC, &SD_Step_InitStruct);
-//	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_0, GPIO_PIN_RESET );
-//
-//	// Step/Dir pin for rotation
-//	GPIO_InitTypeDef SD_Dir_InitStruct = {0};
-//	SD_Dir_InitStruct.Pin = GPIO_PIN_3;
-//	SD_Dir_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//	SD_Dir_InitStruct.Pull = GPIO_NOPULL;
-//	SD_Dir_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//	HAL_GPIO_Init(GPIOA, &SD_Dir_InitStruct);
-//	HAL_GPIO_WritePin( GPIOA, GPIO_PIN_3, GPIO_PIN_RESET );
+
 }
 
+/* USER CODE BEGIN 4 */
 /* USER CODE BEGIN 4 */
 
 

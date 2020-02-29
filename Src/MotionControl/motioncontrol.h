@@ -46,6 +46,5 @@ typedef struct {
 void rotate_left(Motor_HandleTypeDef* motor, uint32_t num_steps, e_speed speed);
 void rotate_right(Motor_HandleTypeDef* motor, uint32_t num_steps, e_speed speed);
 void motor_init(Motor_HandleTypeDef* motor);
-void AD_TMC5160_Init(Motor_HandleTypeDef* motor);
 
 #endif /* SRC_MOTIONCONTROL_MOTIONCONTROL_H_ */
