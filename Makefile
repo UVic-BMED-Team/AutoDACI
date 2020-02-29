@@ -22,7 +22,8 @@ TARGET = AutoDACI
 # debug build?
 DEBUG = 1
 # optimization
-OPT = -Og
+#OPT = -Og
+OPT = -O0 # Turns off optimization, enable when doing a production run
 
 
 #######################################
@@ -58,7 +59,10 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-Src/system_stm32f4xx.c  
+Src/system_stm32f4xx.c \
+Src/TMC-API/tmc/ic/TMC5160/TMC5160.c \
+Src/TMC-SPI/TMC-SPI.c \
+Src/MotionControl/motioncontrol.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -120,7 +124,8 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F4xx/Include \
 -IDrivers/CMSIS/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-ISrc/MotionControl
 
 
 # compile gcc flags

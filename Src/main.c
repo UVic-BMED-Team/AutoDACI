@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "motioncontrol.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -33,6 +33,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,6 +48,20 @@ SPI_HandleTypeDef hspi2;
 
 UART_HandleTypeDef huart2;
 
+Motor_HandleTypeDef m_rotation_handle = {
+		.motor=ROTATION,
+		.direction=CW,
+		.stepsize=6,
+		// Motor Step/Dir control
+		.GPIO_Step_Port=GPIOC,
+		.GPIO_Step_Pin=GPIO_PIN_0,
+		.GPIO_Dir_Port=GPIOA,
+		.GPIO_Dir_Pin=GPIO_PIN_8,
+		// SPI Communication
+		.GPIO_SS_Port=GPIOC,
+		.GPIO_SS_Pin=GPIO_PIN_3
+};
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -54,6 +69,7 @@ UART_HandleTypeDef huart2;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+//static void MX_TIM2_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USART2_UART_Init(void);
@@ -88,7 +104,6 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-  // This is a test
 
   /* USER CODE BEGIN SysInit */
 
@@ -101,18 +116,33 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+  // Initialize the motors
+
+  motor_init(&m_rotation_handle);
+
+  //AD_TMC5160_Init();
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  uint8_t test = 0b11001100;
 
-  HAL_SPI_Transmit(&hspi2, &test, 1, HAL_MAX_DELAY);
+//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+//  HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_RESET );
 
-  while (1)
+  while (0xDEADBEEF)
   {
 /* USER CODE END WHILE */
+	  rotate_right(&m_rotation_handle, 200, MEDIUM);
+	  HAL_Delay(2000);
+	  rotate_left(&m_rotation_handle, 200, MEDIUM);
+	  HAL_Delay(2000);
+//	  rotate_right(ROTATION, 2, FAST);
+//	  rotate_right(ROTATION, 2, FAST);
+//	  rotate_right(ROTATION, 2, FAST);
+	  //HAL_Delay(1000);
 /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -165,7 +195,7 @@ void SystemClock_Config(void)
 /**
   * @brief I2C1 Initialization Function
   * @param None
-  * @retval None
+  * @retval Nonecmd[i]
   */
 static void MX_I2C1_Init(void)
 {
@@ -216,10 +246,14 @@ static void MX_SPI2_Init(void)
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
   hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+
+  // Below are set for SPI mode 3 with software controlled slave
+  hspi2.Init.CLKPolarity = SPI_POLARITY_HIGH; // TMC5160 expects HIGH idle
+//SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_2EDGE; //SPI_PHASE_1EDGE;
   hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256; //SPI_BAUDRATEPRESCALER_2;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -263,6 +297,7 @@ static void MX_USART2_UART_Init(void)
   }
   /* USER CODE BEGIN USART2_Init 2 */
 
+
   /* USER CODE END USART2_Init 2 */
 
 }
@@ -273,33 +308,81 @@ static void MX_USART2_UART_Init(void)
   * @retval None
   */
 static void MX_GPIO_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+	/*Configure GPIO pin : B1_Pin */
+	GPIO_InitStruct.Pin = B1_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+	/*Configure GPIO pin : LD2_Pin */
+	GPIO_InitStruct.Pin = LD2_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+	// Slave select pin (set high, active low)
+	GPIO_InitTypeDef SS_InitStruct = {0};
+	SS_InitStruct.Pin = GPIO_PIN_3;
+	SS_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	SS_InitStruct.Pull = GPIO_NOPULL;
+	SS_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+	HAL_GPIO_Init(GPIOC, &SS_InitStruct);
+	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_3, GPIO_PIN_SET );
+
+//	// Step/Dir pin for rotation
+//	GPIO_InitTypeDef SD_Step_InitStruct = {0};
+//	SD_Step_InitStruct.Pin = GPIO_PIN_0;
+//	SD_Step_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//	SD_Step_InitStruct.Pull = GPIO_NOPULL;
+//	SD_Step_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//	HAL_GPIO_Init(GPIOC, &SD_Step_InitStruct);
+//	HAL_GPIO_WritePin( GPIOC, GPIO_PIN_0, GPIO_PIN_RESET );
+//
+//	// Step/Dir pin for rotation
+//	GPIO_InitTypeDef SD_Dir_InitStruct = {0};
+//	SD_Dir_InitStruct.Pin = GPIO_PIN_3;
+//	SD_Dir_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//	SD_Dir_InitStruct.Pull = GPIO_NOPULL;
+//	SD_Dir_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//	HAL_GPIO_Init(GPIOA, &SD_Dir_InitStruct);
+//	HAL_GPIO_WritePin( GPIOA, GPIO_PIN_3, GPIO_PIN_RESET );
 }
 
 /* USER CODE BEGIN 4 */
+
+
+//TODO If we want to enable timers later we will need a similiar process to this.
+//static void MX_TIM2_Init(void)
+//{
+//	/* Enable clock for TIM2 peripheral */
+//	RCC->APB1ENR = RCC_APB1ENR_TIM2EN;
+//
+//	/* Configure TIM2: buffer auto-reload, count up, stop on overflow,
+//	 * enable update events, interrupt on overflow only */
+//	TIM2->CR1 = ((uint16_t)0x8C);
+//
+//	/* Set clock prescaler value */
+// 	TIM2->PSC = myTIM2_PRESCALER;
+//
+// 	/* Set auto-reloaded delay */
+// 	TIM2->ARR = myTIM2_PERIOD;
+//
+// 	/* Update timer registers */
+// 	TIM2->EGR = TIM_EGR_UG;
+//}
 
 /* USER CODE END 4 */
 
