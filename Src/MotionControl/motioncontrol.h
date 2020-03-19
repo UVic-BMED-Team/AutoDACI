@@ -11,6 +11,10 @@
 #include <stdlib.h>
 #include "stm32f4xx_hal.h"
 
+#define SHORTCONF 	0x89
+#define IHOLD_IRUN 	0x90
+#define TPOWERDOWN 0x91
+
 #define ROTATION_STEP_PORT GPIOC
 #define ROTATION_STEP_PIN GPIO_PIN_0
 #define ROTATION_DIR_PORT GPIOA

@@ -51,7 +51,7 @@ UART_HandleTypeDef huart1;
 Motor_HandleTypeDef m_rotation_handle = {
 		.motor=ROTATION,
 		.direction=CW,
-		.stepsize=6,
+		.stepsize=8,
 		// Motor Step/Dir control
 		.GPIO_Step_Port=GPIOC,
 		.GPIO_Step_Pin=GPIO_PIN_0,
@@ -126,10 +126,10 @@ int main(void)
   while (0xDEADBEEF)
   {
 /* USER CODE END WHILE */
-	  rotate_right(&m_rotation_handle, 200, MEDIUM);
-	  HAL_Delay(2000);
-	  rotate_left(&m_rotation_handle, 200, MEDIUM);
-	  HAL_Delay(2000);
+//	  rotate_right(&m_rotation_handle, 200, MEDIUM);
+//	  HAL_Delay(2000);
+//	  rotate_left(&m_rotation_handle, 200, MEDIUM);
+//	  HAL_Delay(2000);
 
 
 //	  rotate_right(ROTATION, 2, FAST);
@@ -306,28 +306,30 @@ static void MX_USART1_UART_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
-	 GPIO_InitTypeDef GPIO_InitStruct = {0};
-  /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOH_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+
+	/*Configure GPIO pin : B1_Pin */
+	GPIO_InitStruct.Pin = B1_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+
+	/*Configure GPIO pin : LD2_Pin */
+	GPIO_InitStruct.Pin = LD2_Pin;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
 	// Slave select pin (set high, active low)
 	GPIO_InitTypeDef SS_InitStruct = {0};
@@ -378,13 +380,17 @@ void light_off()
 
 void USART1_IRQHandler(void)
 {
+#define RECEIVE_X_BYTES 1
 	uint8_t uart_cmd[1];
 	uart_cmd[0] = 0;
-	HAL_UART_Receive(&huart1, uart_cmd, 1, UINT32_MAX);
-	if (uart_cmd[0] == 0xff) {
+	HAL_UART_Receive(&huart1, uart_cmd, RECEIVE_X_BYTES, UINT32_MAX);
+	if (uart_cmd[0] & 0x01) {
 		light_on();
+		  rotate_right(&m_rotation_handle, 5, FAST);
+
 	} else {
 		light_off();
+		rotate_left(&m_rotation_handle, 5, FAST);
 	}
 }
 
